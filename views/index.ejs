@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow DevOps</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <h1 class="text-center text-primary">
+                🚀 TaskFlow DevOps
+            </h1>
+
+            <h3 class="text-center text-secondary">
+                End-to-End DevOps Pipeline
+            </h3>
+
+            <hr>
+
+            <p class="text-center lead">
+                Production Ready DevOps Capstone Project
+            </p>
+
+            <!-- Dashboard Cards -->
+
+            <div class="row mt-4">
+
+                <div class="col-md-4">
+
+                    <div class="card border-primary shadow-sm">
+
+                        <div class="card-body text-center">
+
+                            <h4>Total Tasks</h4>
+
+                            <h1 class="text-primary">
+                                <%= totalTasks %>
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card border-success shadow-sm">
+
+                        <div class="card-body text-center">
+
+                            <h4>Completed</h4>
+
+                            <h1 class="text-success">
+                                <%= completedTasks %>
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card border-warning shadow-sm">
+
+                        <div class="card-body text-center">
+
+                            <h4>Pending</h4>
+
+                            <h1 class="text-warning">
+                                <%= pendingTasks %>
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Buttons -->
+
+            <div class="text-center mt-4">
+
+                <a href="/tasks/add" class="btn btn-primary me-2">
+                    Add Task
+                </a>
+
+                <a href="/tasks" class="btn btn-success">
+                    View Tasks
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
