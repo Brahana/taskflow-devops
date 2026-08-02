@@ -26,7 +26,10 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                    bat '''
+                    docker logout
+                    docker login -u %DOCKER_USER% -p %DOCKER_PASS%
+                    '''
                 }
             }
         }
@@ -40,11 +43,17 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 bat '''
-                docker stop taskflow-app || exit 0
-                docker rm taskflow-app || exit 0
+                docker stop taskflow-app
+                docker rm taskflow-app
                 docker run -d --name taskflow-app -p 3000:3000 %IMAGE_NAME%:latest
                 '''
             }
+        }
+    }
+
+    post {
+        always {
+            bat 'docker logout'
         }
     }
 }
