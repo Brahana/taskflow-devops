@@ -9,7 +9,7 @@ const path = require("path");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const filePath = path.join(__dirname, "data", "tasks.json");
 
 // Configure EJS
