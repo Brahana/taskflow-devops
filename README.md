@@ -1,10 +1,10 @@
-# End-to-End DevOps Pipeline for Node.js Web Application
+# End-to-End DevOps Pipeline for a Node.js Web Application
 
-## Project Description
+## Project Overview
 
-This project demonstrates a complete DevOps CI/CD pipeline for a Node.js web application using GitHub, Jenkins, Docker, Docker Hub, AWS EC2, Prometheus, Grafana, Node Exporter, Bash, and Cron Jobs.
+This project demonstrates a complete DevOps CI/CD pipeline for deploying a Node.js web application using GitHub, Jenkins, Docker, AWS EC2, Prometheus, Grafana, and Cron Jobs.
 
-The application is automatically built, containerized, deployed, monitored, and configured with email alerts.
+The pipeline automates application build, Docker image creation, deployment to AWS EC2, infrastructure monitoring, alerting through email notifications, and scheduled backup automation.
 
 ---
 
@@ -19,82 +19,117 @@ The application is automatically built, containerized, deployed, monitored, and 
 - Prometheus
 - Grafana
 - Node Exporter
-- Bash
-- Cron Jobs
+- Bash Shell Script
+- Cron
 
 ---
 
-## Project Workflow
+## Project Architecture
 
 Developer
 ↓
 GitHub Repository
 ↓
-Jenkins Pipeline
+Jenkins CI/CD
 ↓
-Docker Build
+Build Docker Image
 ↓
-Docker Hub
+Push Image to Docker Hub
 ↓
-AWS EC2 Deployment
+Deploy Container on AWS EC2
 ↓
-Docker Container
-↓
-Prometheus Monitoring
-↓
-Grafana Dashboard
+Monitor using Prometheus + Grafana
 ↓
 Email Alerts
-
----
-
-## Setup Instructions
-
-Clone the repository
-
-```bash
-git clone <your-github-repository-url>
-```
-
-Build Docker Image
-
-```bash
-docker build -t taskflow-app .
-```
-
-Run Docker Container
-
-```bash
-docker run -d -p 3000:3000 taskflow-app
-```
+↓
+Backup Automation using Cron
 
 ---
 
 ## CI/CD Pipeline
 
-- Code is pushed to GitHub.
-- Jenkins automatically builds the project.
-- Docker image is created.
-- Image is pushed to Docker Hub.
-- Container is deployed on AWS EC2.
-- Prometheus monitors the server.
-- Grafana displays dashboards.
-- Email alerts are sent for high CPU usage.
+1. Developer pushes code to GitHub.
+2. Jenkins automatically pulls the latest source code.
+3. Jenkins builds a Docker image.
+4. Docker image is pushed to Docker Hub.
+5. Application container is deployed on AWS EC2.
+6. Prometheus collects system metrics.
+7. Grafana visualizes CPU, Memory, Disk, and Network usage.
+8. Email alerts are generated when CPU usage crosses the threshold.
+9. Cron executes scheduled backup jobs.
 
 ---
 
 ## Monitoring
 
-- Prometheus
-- Grafana
-- Node Exporter
+Implemented using:
 
-Metrics monitored:
+- Prometheus
+- Node Exporter
+- Grafana Dashboard
+- Email Alert Notifications
+
+Monitored Metrics:
 
 - CPU Usage
 - Memory Usage
 - Disk Usage
-- Network Usage
+- Network Traffic
+
+---
+
+## Backup Automation
+
+A Bash shell script (backup.sh) was created.
+
+Cron Job:
+
+```bash
+*/5 * * * * /home/ec2-user/backup.sh
+```
+
+The backup runs automatically every 5 minutes.
+
+---
+
+## Docker Commands
+
+Build Image
+
+```bash
+docker build -t taskflow-devops .
+```
+
+Run Container
+
+```bash
+docker run -d -p 3000:3000 taskflow-devops
+```
+
+Check Running Containers
+
+```bash
+docker ps
+```
+
+---
+
+## Jenkins Pipeline
+
+- Pull Source Code
+- Build Docker Image
+- Push Docker Image
+- Deploy Container
+
+---
+
+## Future Improvements
+
+- Kubernetes Deployment
+- Terraform Infrastructure
+- AWS CloudWatch Integration
+- SSL/HTTPS
+- Auto Scaling
 
 ---
 
