@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "brahana/taskflow-devops"
+        EC2_HOST = "16.16.220.109"
     }
 
     stages {
@@ -40,13 +41,24 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Deploy to EC2') {
             steps {
-                bat '''
-                docker stop taskflow-app
-                docker rm taskflow-app
-                docker run -d --name taskflow-app -p 3000:3000 %IMAGE_NAME%:latest
-                '''
+                withCredentials([sshUserPrivateKey(
+                    credentialsId: 'ec2-ssh',
+                    keyFileVariable: 'SSH_KEY',
+                    usernameVariable: 'EC2_USER'
+                )]) {
+
+                    bat '''
+                    ssh -o StrictHostKeyChecking=no -i "%SSH_KEY%" %EC2_USER%@%EC2_HOST% "docker pull %IMAGE_NAME%:latest"
+                    
+                    ssh -o StrictHostKeyChecking=no -i "%SSH_KEY%" %EC2_USER%@%EC2_HOST% "docker stop taskflow-app || true"
+                    
+                    ssh -o StrictHostKeyChecking=no -i "%SSH_KEY%" %EC2_USER%@%EC2_HOST% "docker rm taskflow-app || true"
+                    
+                    ssh -o StrictHostKeyChecking=no -i "%SSH_KEY%" %EC2_USER%@%EC2_HOST% "docker run -d --name taskflow-app -p 3000:3000 %IMAGE_NAME%:latest"
+                    '''
+                }
             }
         }
     }
