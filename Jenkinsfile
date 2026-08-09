@@ -28,7 +28,6 @@ pipeline {
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
                     bat '''
-                    docker logout
                     echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
                     '''
                 }
@@ -50,7 +49,8 @@ pipeline {
                 )]) {
 
                     bat '''
-                    ssh -o StrictHostKeyChecking=no -i "%SSH_KEY%" %EC2_USER%@%EC2_HOST% "docker pull %IMAGE_NAME%:latest && docker stop taskflow-app || true"
+                    ssh -o StrictHostKeyChecking=no -i "%SSH_KEY%" %EC2_USER%@%EC2_HOST% "docker pull %IMAGE_NAME%:latest"
+                    ssh -o StrictHostKeyChecking=no -i "%SSH_KEY%" %EC2_USER%@%EC2_HOST% "docker stop taskflow-app || true"
                     ssh -o StrictHostKeyChecking=no -i "%SSH_KEY%" %EC2_USER%@%EC2_HOST% "docker rm taskflow-app || true"
                     ssh -o StrictHostKeyChecking=no -i "%SSH_KEY%" %EC2_USER%@%EC2_HOST% "docker run -d --name taskflow-app -p 3000:3000 %IMAGE_NAME%:latest"
                     '''
